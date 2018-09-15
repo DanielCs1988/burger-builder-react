@@ -1,6 +1,10 @@
 # Created by https://www.gitignore.io/api/node,webstorm+all
 
-Firebase Folder
+# React Scripts and Config
+config/
+scripts/
+
+# Firebase Folder
 /.firebase
 
 ### Node ###
