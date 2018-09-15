@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classes from './Toolbar.css';
-import Logo from "../../Logo/Logo";
+import Logo from "../../UI/Logo/Logo";
 import NavigationItems from "../NavigationItems/NavigationItems";
 import Toggle, {Props} from "../Toggle/Toggle";
 

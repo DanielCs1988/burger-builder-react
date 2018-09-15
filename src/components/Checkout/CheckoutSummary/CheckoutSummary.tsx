@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classes from './CheckoutSummary.css';
-import Burger from "../../Burger/Burger";
+import Burger from "../../BurgerBuilder/Burger/Burger";
 import Button, {BtnType} from "../../UI/Button/Button";
 import {Ingredients} from "../../../models";
 

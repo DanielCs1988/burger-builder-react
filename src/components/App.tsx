@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
-import Layout from "./Layout/Layout";
-import BurgerBuilder from "./BurgerBuilder/BurgerBuilder";
-import Orders from "./Orders/Orders";
-import Checkout from "./Checkout/Checkout";
+import Layout from "./UI/Layout/Layout";
+import BurgerBuilder from "../containers/BurgerBuilder/BurgerBuilder";
+import OrdersSummary from "../containers/OrdersSummary/OrdersSummary";
+import Checkout from "../containers/Checkout/Checkout";
 
 class App extends React.Component {
     render() {
@@ -14,7 +14,7 @@ class App extends React.Component {
                         <Switch>
                             <Route path="/burger" component={BurgerBuilder} />
                             <Route path="/checkout" component={Checkout} />
-                            <Route path="/orders" component={Orders} />
+                            <Route path="/orders" component={OrdersSummary} />
                             <Redirect from="/" to="/burger" />
                         </Switch>
                     </Layout>

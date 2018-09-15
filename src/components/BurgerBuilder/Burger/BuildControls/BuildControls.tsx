@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classes from './BuildControls.css';
 import BuildControl from "./BuildControl/BuildControl";
-import {Ingredient, Ingredients} from "../../../models";
+import {Ingredient, Ingredients} from "../../../../models";
 
 const buildControls = ({ ingredients, price, purchase, ingredientAdded, ingredientRemoved }: Props) => {
     const controls = Object.keys(ingredients)

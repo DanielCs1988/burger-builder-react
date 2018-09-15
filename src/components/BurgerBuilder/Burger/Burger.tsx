@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classes from './Burger.css';
 import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
-import {BurgerBread, Ingredient, Ingredients} from "../../models";
+import {BurgerBread, Ingredient, Ingredients} from "../../../models";
 
 const burger = ({ ingredients }: Props) => {
     const mappedIngredients = Object.keys(ingredients)

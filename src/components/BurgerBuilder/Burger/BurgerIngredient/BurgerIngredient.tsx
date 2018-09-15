@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classes from './BurgerIngredient.css';
-import {BurgerBread, Ingredient} from "../../../models";
+import {BurgerBread, Ingredient} from "../../../../models";
 
 const ingredients = {
     [BurgerBread.BREAD_BOTTOM]: <div className={classes.BreadBottom} />,

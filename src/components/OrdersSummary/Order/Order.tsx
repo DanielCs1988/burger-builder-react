@@ -1,8 +1,8 @@
 import * as React from 'react';
 import classes from './Order.css';
-import { Ingredients } from "../../models";
+import { Ingredients } from "../../../models";
 
-const order = ({ ingredients }: Props) => {
+const Order = ({ ingredients }: Props) => {
     const output = Object.keys(ingredients)
         .map(ingKey => (
             <div className={classes.Ingredient} key={ingKey}>
@@ -21,4 +21,4 @@ export interface Props {
     ingredients: Ingredients
 }
 
-export default order;
+export default Order;
