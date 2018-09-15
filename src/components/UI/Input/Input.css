@@ -1,0 +1,40 @@
+.Input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.Input label {
+    text-transform: capitalize;
+    text-align: left;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.Input input,
+.Input textarea,
+.Input select {
+    display: block;
+    width: 100%;
+    outline: none;
+    border: 1px solid #ccc;
+    background-color: white;
+    font: inherit;
+    padding: 6px 10px;
+    box-sizing: border-box;
+}
+
+.Input input:focus {
+    outline: none;
+    background-color: #ccc;
+}
+
+.Valid input {
+    border: 1px solid green;
+}
+
+.Invalid input {
+    border: 1px solid red;
+    background-color: #FDA49A;
+}
