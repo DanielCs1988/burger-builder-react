@@ -7,8 +7,9 @@ import CheckoutSummary from './CheckoutSummary/CheckoutSummary';
 import ContactData from "../../containers/Checkout/ContactData/ContactData";
 
 const Checkout = ({ ingredients, history, match }: Props) => {
+    const ingredientsPresent = Object.keys(ingredients).length > 0;
     return (
-        <RedirectIf shouldRedirect={!ingredients} to="/burger">
+        <RedirectIf shouldRedirect={!ingredientsPresent} to="/burger">
             <CheckoutSummary
                 ingredients={ingredients}
                 cancelled={() => history.goBack()}

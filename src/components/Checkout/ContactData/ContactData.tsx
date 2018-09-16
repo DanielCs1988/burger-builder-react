@@ -69,6 +69,7 @@ class ContactData extends React.Component<Props, any> {
                 inputType: InputType.SELECT,
                 value: 'fastest',
                 valid: true,
+                touched: true,
                 options: [
                     { value: 'fastest', displayedValue: 'Fastest' },
                     { value: 'normal', displayedValue: 'Normal' },
@@ -93,9 +94,6 @@ class ContactData extends React.Component<Props, any> {
     };
 
     inputHandler = ({ target: { id, value } }: any) => {
-        if (!Object.keys(this.state.orderForm).includes(id)) {
-            return;
-        }
         const valid = this.checkValidity(value, this.state.orderForm[id].validation);
         const orderForm = {
             ...this.state.orderForm,
