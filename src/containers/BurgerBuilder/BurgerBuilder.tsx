@@ -1,8 +1,9 @@
 import ordersApi from "../../axios-orders";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import { connect } from "react-redux";
-import {Actions as IngredientActions, fetchIngredients} from "../../store/actions/ingredients";
+import { Actions as IngredientActions } from "../../store/actions/ingredients";
 import { Actions as OrderActions } from "../../store/actions/orders";
+import { fetchIngredients } from "../../store/effects/ingredients";
 import {Ingredient} from "../../models";
 import {AppState} from "../../store/types";
 import BurgerBuilder from "../../components/BurgerBuilder/BurgerBuilder";

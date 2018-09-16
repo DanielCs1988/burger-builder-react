@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import {sendOrder} from "../../../store/actions/orders";
+import { sendOrder } from "../../../store/effects/orders";
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 import ordersApi from "../../../axios-orders";
 import {AppState} from "../../../store/types";

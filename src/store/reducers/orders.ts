@@ -1,4 +1,4 @@
-import { ActionTypes } from "../actions/actionTypes";
+import { ActionTypes } from "../actions/orders";
 import { OrderActions } from "../actions/orders";
 import { OrderState } from "../types";
 

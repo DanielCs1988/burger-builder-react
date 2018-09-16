@@ -1,6 +1,5 @@
-import { ActionTypes } from "../actions/actionTypes";
 import {IngredientState} from "../types";
-import {IngredientActions} from "../actions/ingredients";
+import {ActionTypes, IngredientActions} from "../actions/ingredients";
 
 export const initialState: IngredientState = {
     ingredients: {},

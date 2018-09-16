@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import ordersApi from "../../axios-orders";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
-import {fetchOrders} from "../../store/actions/orders";
+import { fetchOrders } from "../../store/effects/orders";
 import {AppState} from "../../store/types";
 import OrdersSummary from "../../components/OrdersSummary/OrdersSummary";
 

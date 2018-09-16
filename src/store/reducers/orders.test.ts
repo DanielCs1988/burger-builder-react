@@ -43,7 +43,7 @@ describe('Ingredients Reducer', () => {
     it('should turn off loading when sending an order resulted in an error', () => {
         const result = reducer(
             { ...defaultState, loading: true },
-            Actions.orderFailed(new Error('Oops...'))
+            Actions.orderFailed('Oops...')
         );
         expect(result).toEqual(defaultState);
     });
@@ -51,7 +51,7 @@ describe('Ingredients Reducer', () => {
     it('should turn off loading when fetching orders resulted in an error', () => {
         const result = reducer(
             { ...defaultState, loading: true },
-            Actions.ordersFetchedError(new Error('Oops...'))
+            Actions.ordersFetchedError('Oops...')
         );
         expect(result).toEqual(defaultState);
     });
