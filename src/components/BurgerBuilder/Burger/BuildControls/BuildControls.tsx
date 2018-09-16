@@ -5,9 +5,9 @@ import {Ingredient, Ingredients} from "../../../../models";
 
 const buildControls = ({ ingredients, price, purchase, ingredientAdded, ingredientRemoved }: Props) => {
     const controls = Object.keys(ingredients)
-        .map((type: Ingredient, index) => {
+        .map((type: Ingredient) => {
             const disabled = ingredients[type] === 0;
-            return <BuildControl key={index} label={type} disabled={disabled}
+            return <BuildControl key={type} label={type} disabled={disabled}
                              ingredientAdded={() => ingredientAdded(type)}
                              ingredientRemoved={() => ingredientRemoved(type)}
             />;

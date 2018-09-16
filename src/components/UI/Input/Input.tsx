@@ -47,10 +47,10 @@ export interface Props {
     value: string;
     id: string;
     onChange: () => void;
-    valid: boolean;
-    touched: boolean;
-    config: any;
-    props: any;
+    valid?: boolean;
+    touched?: boolean;
+    config?: any;
+    props?: any;
 }
 
 export default input;

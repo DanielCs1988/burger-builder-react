@@ -64,6 +64,7 @@
     "@types/react-router-dom": "^4.3.1",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.5.0",
+    "identity-obj-proxy": "^3.0.0",
     "react-test-renderer": "^16.5.1",
     "typescript": "^3.0.3"
   },
@@ -90,7 +91,8 @@
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|ts|tsx)$"
     ],
     "moduleNameMapper": {
-      "^react-native$": "react-native-web"
+      "^react-native$": "react-native-web",
+      "\\.(css|less)$": "identity-obj-proxy"
     },
     "moduleFileExtensions": [
       "web.ts",

@@ -9,7 +9,7 @@ export const initialState: IngredientState = {
     loading: false
 };
 
-const PRICES = {
+export const PRICES = {
     'salad': 0.2,
     'bacon': 0.3,
     'cheese': 0.5,

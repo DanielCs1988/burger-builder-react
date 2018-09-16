@@ -2,7 +2,7 @@ import { ActionTypes } from "../actions/actionTypes";
 import { OrderActions } from "../actions/orders";
 import { OrderState } from "../types";
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
     orders: [],
     loading: false,
     fetched: false,
@@ -22,12 +22,12 @@ const reducer = (state = initialState, action: OrderActions) => {
                 loading: true
             };
         case ActionTypes.ORDER_FAILED:
+        case ActionTypes.ORDERS_FETCHED_ERROR:
             return {
                 ...state,
                 loading: false
             };
         case ActionTypes.ORDER_ARRIVED:
-            console.log(action.payload);
             return {
                 ...state,
                 orders: [...state.orders, action.payload],
@@ -44,12 +44,6 @@ const reducer = (state = initialState, action: OrderActions) => {
                 ],
                 loading: false,
                 fetched: true
-            };
-        case ActionTypes.ORDERS_FETCHED_ERROR:
-            console.error(action.payload);  // Temporary until a proper feedback component is created.
-            return {
-                ...state,
-                loading: false
             };
         default:
             return state;
