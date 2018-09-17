@@ -1,6 +1,14 @@
-import {validateInputValue} from "./form-validator";
+import {initFormValidity, validateForm, validateInputValue} from "./form-validator";
+import {processedForm, rawForm} from "./formdata-mock";
 
 describe(' Form Validator', () => {
+
+    it('should initialize the form', () => {
+        expect(initFormValidity(rawForm)).toEqual({
+            inputs: { ...processedForm },
+            valid: true
+        });
+    });
 
     it('should return true when no rules are specified', () => {
         expect(validateInputValue('random')).toBe(true);
@@ -44,5 +52,20 @@ describe(' Form Validator', () => {
     it('[PATTERN] should consider strings of the wrong pattern valid', () => {
         const result = validateInputValue('r4nd0m', { pattern: /^[a-zA-Z]{5,10}$/ });
         expect(result).toBe(false);
+    });
+
+    it('should return true on a valid form', () => {
+        expect(validateForm(processedForm)).toBe(true);
+    });
+
+    it('should return false on an invalid form', () => {
+        const invalidForm = {
+            ...processedForm,
+            text: {
+                ...processedForm.text,
+                valid: false
+            }
+        };
+        expect(validateForm(invalidForm)).toBe(false);
     });
 });

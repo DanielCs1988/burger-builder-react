@@ -1,17 +1,14 @@
 import * as React from 'react';
 import { FormEvent } from "react";
 import { FormData, FormValueMap } from "./form.types";
-import {validateForm, validateInputValue} from "./form-validator";
+import {initFormValidity, validateForm, validateInputValue} from "./form-validator";
 import Input from "./Input/Input";
 import Button, { BtnType } from "../Button/Button";
 
 class Form extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        this.state = {
-            inputs: props.inputs,
-            valid: validateForm(props.inputs)
-        };
+        this.state = initFormValidity(props.inputs);
     }
 
     inputHandler = ({ target: { id, value } }: any) => {

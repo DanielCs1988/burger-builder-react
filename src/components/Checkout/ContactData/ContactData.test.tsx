@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Adapter from 'enzyme-adapter-react-16';
 import {configure, shallow, ShallowWrapper} from "enzyme";
-import ContactData from "./ContactData";
+import ContactData, { formData } from "./ContactData";
 import {DeliveryMethod, Ingredients, OrderData} from "../../../models";
 import Load from "../../../hoc/Load/Load";
 import RedirectIf from "../../../hoc/RedirectIf/RedirectIf";
@@ -32,6 +32,12 @@ describe('<ContactData />', () => {
         wrapper = shallow(
             <ContactData ingredients={ingredients} loading={false} purchased={false} sendOrder={ordered} />
         );
+    });
+
+    it('should pass on all the relevant data to the <Form /> component', () => {
+        const form = wrapper.find(Form);
+        expect(form.prop('inputs')).toEqual(formData);
+        expect(form.prop('submitBtnLabel')).toBe('ORDER');
     });
 
     it('should not redirect while purchasing is in progress', () => {

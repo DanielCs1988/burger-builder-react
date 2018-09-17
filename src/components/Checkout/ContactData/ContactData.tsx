@@ -27,12 +27,10 @@ export interface Props {
     sendOrder: (order: Order) => void;
 }
 
-const formData = {
+export const formData = {
     name: {
         inputType: InputType.INPUT,
         value: '',
-        valid: false,
-        touched: false,
         config: {
             type: 'text',
             placeholder: 'Your name'
@@ -46,8 +44,6 @@ const formData = {
     email: {
         inputType: InputType.INPUT,
         value: '',
-        valid: false,
-        touched: false,
         config: {
             type: 'email',
             placeholder: 'Your email address'
@@ -59,8 +55,6 @@ const formData = {
     street: {
         inputType: InputType.INPUT,
         value: '',
-        valid: false,
-        touched: false,
         config: {
             type: 'text',
             placeholder: 'Street you live in'
@@ -72,8 +66,6 @@ const formData = {
     zipCode: {
         inputType: InputType.INPUT,
         value: '',
-        valid: false,
-        touched: false,
         config: {
             type: 'text',
             placeholder: 'Your zipCode'
@@ -85,8 +77,6 @@ const formData = {
     deliveryMethod: {
         inputType: InputType.SELECT,
         value: 'fastest',
-        valid: true,
-        touched: true,
         options: [
             {value: 'fastest', displayedValue: 'Fastest'},
             {value: 'normal', displayedValue: 'Normal'},

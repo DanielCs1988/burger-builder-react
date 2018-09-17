@@ -15,8 +15,8 @@ export interface SelectOption {
 export interface FormField {
     inputType: InputType;
     value: string;
-    valid: boolean;
-    touched: boolean;
+    valid?: boolean;
+    touched?: boolean;
     config?: any;
     validation?: Validation;
     options?: SelectOption[]

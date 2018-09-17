@@ -4,6 +4,7 @@ import Layout from "./UI/Layout/Layout";
 import BurgerBuilder from "../containers/BurgerBuilder/BurgerBuilder";
 import OrdersSummary from "../containers/OrdersSummary/OrdersSummary";
 import Checkout from "../containers/Checkout/Checkout";
+import Auth from "../containers/Auth/Auth";
 
 class App extends React.Component {
     render() {
@@ -15,6 +16,7 @@ class App extends React.Component {
                             <Route path="/burger" component={BurgerBuilder} />
                             <Route path="/checkout" component={Checkout} />
                             <Route path="/orders" component={OrdersSummary} />
+                            <Route path="/login" component={Auth} />
                             <Redirect from="/" to="/burger" />
                         </Switch>
                     </Layout>

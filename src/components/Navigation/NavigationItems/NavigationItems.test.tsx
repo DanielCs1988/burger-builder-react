@@ -14,8 +14,8 @@ describe('<NavigationItems />', () => {
         wrapper = shallow(<NavigationItems />);
     });
 
-    it('should contain an unordered list of 2 <NavigationItem /> components', () => {
-        expect(wrapper.find('ul').find(NavigationItem)).toHaveLength(2);
+    it('should contain an unordered list of 3 <NavigationItem /> components', () => {
+        expect(wrapper.find('ul').find(NavigationItem)).toHaveLength(3);
     });
 
     it('should have the first link pointing to /burger', () => {
@@ -26,5 +26,10 @@ describe('<NavigationItems />', () => {
     it('should have the second link pointing to /orders', () => {
         const link = wrapper.find('ul').find(NavigationItem).getElements()[1];
         expect(link.props.link).toBe('/orders');
+    });
+
+    it('should have the third link pointing to /login', () => {
+        const link = wrapper.find('ul').find(NavigationItem).getElements()[2];
+        expect(link.props.link).toBe('/login');
     });
 });

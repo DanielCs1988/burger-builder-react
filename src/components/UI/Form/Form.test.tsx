@@ -3,51 +3,12 @@ import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow, configure, ShallowWrapper } from "enzyme";
 import Form, {State} from "./Form";
 import {InputType} from "./Input/Input";
-import {FormData} from "./form.types";
 import Button, {BtnType} from "../Button/Button";
+import {rawForm} from "./formdata-mock";
 
 configure({ adapter: new Adapter() });
 
 describe('<Form />', () => {
-
-    const formData: FormData = {
-        text: {
-            inputType: InputType.INPUT,
-            value: 'Awesome text',
-            valid: true,
-            touched: false,
-            config: {
-                type: 'text',
-                placeholder: 'Etc...'
-            },
-            validation: {
-                required: true,
-                pattern: /^[a-zA-Z\s]{3,15}$/
-            }
-        },
-        textarea: {
-            inputType: InputType.TEXTAREA,
-            value: 'Let us build a framework!',
-            valid: true,
-            touched: true,
-            config: {
-                cols: 20,
-                rows: 10,
-                placeholder: 'Make a wish!'
-            }
-        },
-        selector: {
-            inputType: InputType.SELECT,
-            value: 'gösser',
-            valid: true,
-            touched: true,
-            options: [
-                { value: 'gut', displayedValue: 'Gut' },
-                { value: 'besser', displayedValue: 'Besser' },
-                { value: 'gösser', displayedValue: 'Gösser' }
-            ]
-        }
-    };
 
     let wrapper: ShallowWrapper;
     let submitted: jest.Mock;
@@ -55,7 +16,7 @@ describe('<Form />', () => {
 
     beforeEach(() => {
         submitted = jest.fn();
-        wrapper = shallow(<Form inputs={{ ...formData }} submitBtnLabel="GO" onSubmit={submitted} />);
+        wrapper = shallow(<Form inputs={{ ...rawForm }} submitBtnLabel="GO" onSubmit={submitted} />);
         state = wrapper.state() as State;
     });
 
@@ -134,6 +95,13 @@ describe('<Form />', () => {
     });
 
     it('should pass on touched status to form fields', () => {
+        wrapper.setState((prevState: State) => ({ inputs: {
+                ...prevState.inputs,
+            textarea: {
+                ...prevState.inputs.textarea,
+                touched: true
+            }
+        } }));
         const firstInput = wrapper.findWhere(el => el.key() === 'text');
         expect(firstInput.prop('touched')).toBe(false);
         const secondInput = wrapper.findWhere(el => el.key() === 'textarea');
@@ -150,7 +118,7 @@ describe('<Form />', () => {
 
     it('should pass on options array to the select input', () => {
         const input = wrapper.findWhere(el => el.key() === 'selector');
-        expect(input.prop('options')).toEqual(formData.selector.options);
+        expect(input.prop('options')).toEqual(rawForm.selector.options);
     });
 
     it('should validate and save valid form data to the state', () => {

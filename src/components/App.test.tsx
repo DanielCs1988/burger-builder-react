@@ -5,6 +5,7 @@ import App from "./App";
 import BurgerBuilder from "../containers/BurgerBuilder/BurgerBuilder";
 import Checkout from "../containers/Checkout/Checkout";
 import OrdersSummary from "../containers/OrdersSummary/OrdersSummary";
+import Auth from "../containers/Auth/Auth";
 
 configure({ adapter: new Adapter() });
 
@@ -29,6 +30,11 @@ describe('<App />', () => {
     it('should render a /orders route pointing to the <OrdersSummary /> container', () => {
         const route = wrapper.findWhere(el => el.prop('path') === '/orders');
         expect(route.prop('component')).toEqual(OrdersSummary);
+    });
+
+    it('should render a /login route pointing to the <Auth /> container', () => {
+        const route = wrapper.findWhere(el => el.prop('path') === '/login');
+        expect(route.prop('component')).toEqual(Auth);
     });
 
     it('should redirect unknown routes to /burger', () => {

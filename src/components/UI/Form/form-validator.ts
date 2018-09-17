@@ -1,4 +1,20 @@
 import {FormData, Validation} from "./form.types";
+import {State} from "./Form";
+
+export const initFormValidity = (inputs: FormData): State => {
+    let validatedInputs = {};
+    for (let key in inputs) {
+        validatedInputs[key] = {
+            ...inputs[key],
+            valid: validateInputValue(inputs[key].value, inputs[key].validation),
+            touched: false
+        };
+    }
+    return {
+        inputs: validatedInputs,
+        valid: validateForm(validatedInputs)
+    };
+};
 
 export const validateInputValue = (value: string, rules?: Validation) => {
     if (!rules) {
@@ -21,5 +37,5 @@ export const validateInputValue = (value: string, rules?: Validation) => {
 };
 
 export const validateForm = (formData: FormData) => {
-    return Object.values(formData).every(field => field.valid);
+    return Object.values(formData).every(field => field.valid!);
 };
