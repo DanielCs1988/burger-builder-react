@@ -21,11 +21,11 @@ export type Ingredients = {
 };
 
 export interface OrderData {
-    name: string;
-    email: string;
-    street: string;
-    zipCode: string;
-    deliveryMethod: DeliveryMethod;
+    name?: string;
+    email?: string;
+    street?: string;
+    zipCode?: string;
+    deliveryMethod?: DeliveryMethod;
 }
 
 export interface Order {

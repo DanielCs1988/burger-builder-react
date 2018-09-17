@@ -70,10 +70,9 @@ describe('Ingredients Reducer', () => {
     });
 
     it('should register the error and cancel loading when fetching error occurs', () => {
-        const error = new Error('(T_T)');
-        const result = reducer({...defaultState, loading: true}, Actions.fetchIngredientsFailed(error));
+        const result = reducer({...defaultState, loading: true}, Actions.fetchIngredientsFailed('(T_T)'));
         expect(result).toEqual({
-            ...defaultState, error
+            ...defaultState, error: '(T_T)'
         });
     });
 });
