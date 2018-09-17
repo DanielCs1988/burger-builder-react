@@ -46,7 +46,7 @@ export interface Props {
     inputType: InputType;
     value: string;
     id: string;
-    onChange: () => void;
+    onChange: (eventData: any) => void;
     valid?: boolean;
     touched?: boolean;
     config?: any;

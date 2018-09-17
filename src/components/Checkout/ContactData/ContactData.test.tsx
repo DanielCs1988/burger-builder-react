@@ -6,7 +6,7 @@ import {Ingredients} from "../../../models";
 import Load from "../../../hoc/Load/Load";
 import RedirectIf from "../../../hoc/RedirectIf/RedirectIf";
 import Button, {BtnType} from "../../UI/Button/Button";
-import {InputType} from "../../UI/Input/Input";
+import {InputType} from "../../UI/Form/Input/Input";
 
 configure({ adapter: new Adapter() });
 
@@ -57,7 +57,7 @@ describe('<ContactData />', () => {
         state = wrapper.state();
     });
 
-    it('should not while purchasing is in progress', () => {
+    it('should not redirect while purchasing is in progress', () => {
         expect(wrapper.find(RedirectIf).prop('shouldRedirect')).toBe(false);
     });
 

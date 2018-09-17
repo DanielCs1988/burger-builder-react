@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { FormEvent } from "react";
 import classes from './ContactData.css';
-import {InputType} from "../../UI/Input/Input";
+import {InputType} from "../../UI/Form/Input/Input";
 import {Ingredients, Order, OrderData} from "../../../models";
 import RedirectIf from "../../../hoc/RedirectIf/RedirectIf";
 import Load from "../../../hoc/Load/Load";
 import Button, {BtnType} from "../../UI/Button/Button";
-import Input from "../../UI/Input/Input";
+import Input from "../../UI/Form/Input/Input";
 
 class ContactData extends React.Component<Props, any> {
     state = {
