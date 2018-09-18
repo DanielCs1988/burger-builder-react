@@ -15,8 +15,10 @@ class Layout extends React.Component<Props, State> {
     render() {
         return (
             <React.Fragment>
-                <Toolbar toggle={this.toggleSideDrawer} />
-                <SideDrawer open={this.state.showSideDrawer} closed={this.toggleSideDrawer} />
+                <Toolbar toggle={this.toggleSideDrawer}
+                         authenticated={this.props.isAuthenticated} />
+                <SideDrawer open={this.state.showSideDrawer} closed={this.toggleSideDrawer}
+                            authenticated={this.props.isAuthenticated} />
                 <main className={classes.content}>
                     {this.props.children}
                 </main>
@@ -26,6 +28,7 @@ class Layout extends React.Component<Props, State> {
 }
 
 export interface Props {
+    isAuthenticated: boolean;
     children?: JSX.Element | JSX.Element[];
 }
 

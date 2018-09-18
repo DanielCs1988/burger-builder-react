@@ -1,9 +1,9 @@
 import * as React from 'react';
 import classes from './BuildControls.css';
 import BuildControl from "./BuildControl/BuildControl";
-import {Ingredient, Ingredients} from "../../../../models";
+import {Ingredient, Ingredients} from "../../../models";
 
-const buildControls = ({ ingredients, price, purchase, ingredientAdded, ingredientRemoved }: Props) => {
+const buildControls = ({ ingredients, price, authenticated, purchase, ingredientAdded, ingredientRemoved }: Props) => {
     const controls = Object.keys(ingredients)
         .map((type: Ingredient) => {
             const disabled = ingredients[type] === 0;
@@ -18,8 +18,9 @@ const buildControls = ({ ingredients, price, purchase, ingredientAdded, ingredie
         <div className={classes.BuildControls}>
             <p><strong>Total price: {price.toFixed(2)}</strong></p>
             {controls}
-            <button className={classes.OrderButton} disabled={!purchasable} onClick={purchase}>
-                ORDER NOW
+            <button className={classes.OrderButton} onClick={purchase}
+                    disabled={authenticated && !purchasable}>
+                { authenticated ? 'ORDER NOW' : 'SIGN IN TO ORDER' }
             </button>
         </div>
     );
@@ -28,6 +29,7 @@ const buildControls = ({ ingredients, price, purchase, ingredientAdded, ingredie
 export interface Props {
     ingredients: Ingredients;
     price: number;
+    authenticated: boolean;
     purchase: () => void;
     ingredientAdded: (ingredient: Ingredient) => void;
     ingredientRemoved: (ingredient: Ingredient) => void;

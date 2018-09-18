@@ -12,6 +12,7 @@ describe('<OrdersSummary />', () => {
 
     const testOrder = {
         id: 'veryUniqueId',
+        userId: 'B0ND',
         ingredients: { meat: 10, bacon: 5, cheese: 5 },  // Bacon is veggie
         orderData: {
             name: 'John Cena',
@@ -21,7 +22,7 @@ describe('<OrdersSummary />', () => {
             deliveryMethod: DeliveryMethod.FASTEST
         }
     };
-    const otherOrder = { ...testOrder, id: 'too_lazy_to_modify_anything_else' };
+    const otherOrder = { ...testOrder, id: 'abc123' };
     const orders = [ testOrder, otherOrder ];
     let wrapper: ShallowWrapper;
     let fetchMock: jest.Mock;
@@ -29,7 +30,9 @@ describe('<OrdersSummary />', () => {
     beforeEach(() => {
         fetchMock = jest.fn();
         wrapper = shallow(
-            <OrdersSummary orders={orders} loading={false} fetched={true} fetchOrders={fetchMock} />
+            <OrdersSummary orders={orders} loading={false} fetched={true}
+                           fetchOrders={fetchMock} token="abc" userId="B0ND"
+            />
         );
     });
 

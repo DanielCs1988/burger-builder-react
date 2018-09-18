@@ -7,13 +7,15 @@ import { InputType } from "../../UI/Form/Input/Input";
 import { Ingredients, Order } from "../../../models";
 import { FormValueMap } from "../../UI/Form/form.types";
 
-const ContactData = ({ ingredients, purchased, loading, sendOrder }: Props) => (
+const ContactData = ({ ingredients, purchased, loading, userId, token, sendOrder }: Props) => (
     <RedirectIf shouldRedirect={purchased} to="/burger">
         <Load loading={loading}>
             <div className={classes.ContactData}>
                 <h4>Enter your contact information</h4>
                 <Form inputs={formData} submitBtnLabel="ORDER"
-                      onSubmit={(orderData: FormValueMap) => sendOrder({ orderData, ingredients })}
+                      onSubmit={(orderData: FormValueMap) => {
+                          sendOrder({ userId, orderData, ingredients }, token);
+                      }}
                 />
             </div>
         </Load>
@@ -24,7 +26,9 @@ export interface Props {
     ingredients: Ingredients;
     purchased: boolean;
     loading: boolean;
-    sendOrder: (order: Order) => void;
+    userId: string;
+    token: string;
+    sendOrder: (order: Order, token: string) => void;
 }
 
 export const formData = {

@@ -4,7 +4,7 @@ import Logo from "../../UI/Logo/Logo";
 import NavigationItems from "../NavigationItems/NavigationItems";
 import Backdrop from "../../UI/Backdrop/Backdrop";
 
-const sideDrawer = ({ open, closed }: Props) => {
+const sideDrawer = ({ open, authenticated, closed }: Props) => {
     const openOrClosed = open ? classes.Open : classes.Close;
     return (
         <React.Fragment>
@@ -14,7 +14,7 @@ const sideDrawer = ({ open, closed }: Props) => {
                     <Logo />
                 </div>
                 <nav>
-                    <NavigationItems />
+                    <NavigationItems authenticated={authenticated} />
                 </nav>
             </div>
         </React.Fragment>
@@ -23,6 +23,7 @@ const sideDrawer = ({ open, closed }: Props) => {
 
 export interface Props {
     open: boolean;
+    authenticated: boolean;
     closed: () => void;
 }
 

@@ -30,6 +30,12 @@ export interface OrderData {
 
 export interface Order {
     id?: string;
+    userId: string;
     ingredients: Ingredients;
     orderData: OrderData
+}
+
+export interface Credentials {
+    email?: string;
+    password?: string;
 }

@@ -6,12 +6,16 @@ import {AppState} from "../../../store/types";
 import {Order} from "../../../models";
 import ContactData from "../../../components/Checkout/ContactData/ContactData";
 
-const mapStateToProps = ({ ingredients: { ingredients }, orders: { purchased, loading } }: AppState) => {
-    return { ingredients, purchased, loading };
+const mapStateToProps = ({
+    ingredients: { ingredients },
+    orders: { purchased, loading },
+    auth: { idToken, userId }
+}: AppState) => {
+    return { ingredients, purchased, loading, userId, token: idToken };
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
-    sendOrder: (order: Order) => dispatch(sendOrder(order))
+    sendOrder: (order: Order, token: string) => dispatch(sendOrder(order, token))
 });
 
 export default withErrorHandler(

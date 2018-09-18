@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Burger from "./Burger/Burger";
-import BuildControls from "./Burger/BuildControls/BuildControls";
+import BuildControls from "./BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "./OrderSummary/OrderSummary";
 import Load from "../../hoc/Load/Load";
@@ -17,14 +17,20 @@ class BurgerBuilder extends React.Component<Props, State> {
         this.props.initOrder();
     }
 
-    togglePurchase = () => this.setState((prevState) => ({ purchasing: !prevState.purchasing }));
+    togglePurchase = () => {
+        if (this.props.isAuthenticated) {
+            this.setState((prevState) => ({purchasing: !prevState.purchasing}));
+        } else {
+            this.props.history.push('/authenticate');
+        }
+    };
 
     confirmOrder = () => {
         this.props.history.push('/checkout');
     };
 
     render() {
-        const { ingredients, price, loading, ingredientAdded, ingredientRemoved } = this.props;
+        const { ingredients, price, loading, isAuthenticated, ingredientAdded, ingredientRemoved } = this.props;
         return (
             <Load loading={loading}>
                 <Modal show={this.state.purchasing} closed={this.togglePurchase} >
@@ -38,6 +44,7 @@ class BurgerBuilder extends React.Component<Props, State> {
                                purchase={this.togglePurchase}
                                ingredientAdded={ingredientAdded}
                                ingredientRemoved={ingredientRemoved}
+                               authenticated={isAuthenticated}
                 />
             </Load>
         );
@@ -48,6 +55,7 @@ export interface Props {
     ingredients: Ingredients;
     price: number;
     loading: boolean;
+    isAuthenticated: boolean;
     fetchIngredients: () => void;
     initOrder: () => void;
     history: History;

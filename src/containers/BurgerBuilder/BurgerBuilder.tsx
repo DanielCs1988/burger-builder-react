@@ -8,8 +8,8 @@ import {Ingredient} from "../../models";
 import {AppState} from "../../store/types";
 import BurgerBuilder from "../../components/BurgerBuilder/BurgerBuilder";
 
-const mapStateToProps = ({ ingredients: { ingredients, price, loading } }: AppState) => {
-    return { ingredients, price, loading };
+const mapStateToProps = ({ ingredients: { ingredients, price, loading }, auth: { idToken } }: AppState) => {
+    return { ingredients, price, loading, isAuthenticated: idToken !== null };
 };
 
 const mapDispatchToProps = (dispatch: any) => ({

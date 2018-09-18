@@ -3,8 +3,9 @@ import {Ingredients, Order} from "../models";
 export interface IngredientState {
     ingredients: Ingredients;
     price: number;
-    error: any;
+    error: string | null;
     loading: boolean;
+    building: boolean;
 }
 
 export interface OrderState {
@@ -14,9 +15,22 @@ export interface OrderState {
     purchased: boolean;
 }
 
+export interface AuthState {
+    idToken: string | null;
+    userId: string | null;
+    error: string | null;
+    loading: boolean;
+}
+
 export interface AppState {
     ingredients: IngredientState;
     orders: OrderState;
+    auth: AuthState;
+}
+
+export interface AuthPayload {
+    idToken: string;
+    userId: string;
 }
 
 type FunctionType = (...args: any[]) => any;

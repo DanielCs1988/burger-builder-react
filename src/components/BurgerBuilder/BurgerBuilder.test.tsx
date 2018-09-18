@@ -6,7 +6,7 @@ import {Ingredients} from "../../models";
 import {History} from "history";
 import Load from "../../hoc/Load/Load";
 import Modal from "../UI/Modal/Modal";
-import BuildControls from "./Burger/BuildControls/BuildControls";
+import BuildControls from "./BuildControls/BuildControls";
 import OrderSummary from "./OrderSummary/OrderSummary";
 import Burger from "./Burger/Burger";
 
@@ -29,7 +29,7 @@ describe('<BurgerBuilder />', () => {
         wrapper = shallow(<BurgerBuilder ingredients={ingredients} price={6.81234} loading={false}
                                          fetchIngredients={() => {}} initOrder={() => {}}
                                          ingredientAdded={() => {}} ingredientRemoved={() => {}}
-                                         history={history}
+                                         history={history} isAuthenticated={true}
         />);
     });
 
@@ -49,6 +49,13 @@ describe('<BurgerBuilder />', () => {
     it('should show the <OrderSummary /> when the order button in controls is clicked', () => {
         wrapper.find(BuildControls).getElement().props.purchase.apply(null);
         expect(wrapper.find(Modal).prop('show')).toBe(true);
+    });
+
+    it('should redirect to /authenticate when the sign in button in controls is clicked', () => {
+        wrapper.setProps({ isAuthenticated: false });
+        wrapper.find(BuildControls).getElement().props.purchase.apply(null);
+        expect(history.push).toHaveBeenCalledTimes(1);
+        expect(history.push).toHaveBeenCalledWith('/authenticate');
     });
 
     it('should hide the <OrderSummary /> when the cancel button or the area around the modal is clicked', () => {

@@ -14,7 +14,7 @@ describe('<App />', () => {
     let wrapper: ShallowWrapper;
 
     beforeEach(() => {
-        wrapper = shallow(<App />);
+        wrapper = shallow(<App isAuthenticated={true} loginIfTokenPresent={() => {}} />);
     });
 
     it('should render a /burger route pointing to the <BurgerBuilder /> container', () => {

@@ -9,7 +9,7 @@ const Load = ({ loading, children }: Props) => (
 
 export interface Props {
     loading: boolean;
-    children?: JSX.Element | JSX.Element[]
+    children?: any;
 }
 
 export default Load;

@@ -29,8 +29,9 @@ describe('<ContactData />', () => {
 
     beforeEach(() => {
         ordered = jest.fn();
-        wrapper = shallow(
-            <ContactData ingredients={ingredients} loading={false} purchased={false} sendOrder={ordered} />
+        wrapper = shallow(<ContactData ingredients={ingredients} loading={false}
+                                       purchased={false} sendOrder={ordered} token="abc" userId="V4D3R"
+            />
         );
     });
 
@@ -64,6 +65,6 @@ describe('<ContactData />', () => {
 
     it('should send the order with all the data present', () => {
         wrapper.find(Form).simulate('submit', { ...orderData });
-        expect(ordered).toHaveBeenCalledWith({ ingredients, orderData });
+        expect(ordered).toHaveBeenCalledWith({ ingredients, orderData, userId: 'V4D3R' }, 'abc');
     });
 });

@@ -6,7 +6,7 @@ import {Order as OrderModel} from "../../models";
 class OrdersSummary extends React.Component<Props, object> {
     componentDidMount() {
         if (!this.props.fetched) {
-            this.props.fetchOrders();
+            this.props.fetchOrders(this.props.token, this.props.userId);
         }
     }
 
@@ -28,7 +28,9 @@ export interface Props {
     orders: OrderModel[];
     loading: boolean;
     fetched: boolean;
-    fetchOrders: () => void;
+    userId: string;
+    token: string;
+    fetchOrders: (token: string, userId: string) => void;
 }
 
 export default OrdersSummary;

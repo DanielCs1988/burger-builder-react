@@ -3,7 +3,7 @@ import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow, configure, ShallowWrapper } from "enzyme";
 import BuildControls from "./BuildControls";
 import BuildControl from "./BuildControl/BuildControl";
-import {Ingredients} from "../../../../models";
+import {Ingredients} from "../../../models";
 
 configure({ adapter: new Adapter() });
 
@@ -25,7 +25,7 @@ describe('<BuildControls />', () => {
         ingAdded = jest.fn();
         ingRemoved = jest.fn();
         wrapper = shallow(<BuildControls ingredients={ingredients} price={5.804678} purchase={purchased}
-                                         ingredientAdded={ingAdded} ingredientRemoved={ingRemoved}
+                                         ingredientAdded={ingAdded} ingredientRemoved={ingRemoved} authenticated={true}
         />);
     });
 
@@ -77,6 +77,11 @@ describe('<BuildControls />', () => {
         expect(wrapper.find('button').prop('disabled')).toBe(false);
     });
 
+    it('should activate order button when not signed in', () => {
+        wrapper.setProps({ authenticated: false });
+        expect(wrapper.find('button').prop('disabled')).toBe(false);
+    });
+
     it('should deactivate order button when no ingredients are added', () => {
         wrapper.setProps({
             ingredients: {
@@ -87,6 +92,15 @@ describe('<BuildControls />', () => {
             }
         });
         expect(wrapper.find('button').prop('disabled')).toBe(true);
+    });
+
+    it('should render the button with ORDER NOW label when signed in', () => {
+        expect(wrapper.find('button').prop('children')).toBe('ORDER NOW');
+    });
+
+    it('should render the button with SIGN IN TO ORDER label when user is not authenticated', () => {
+        wrapper.setProps({ authenticated: false });
+        expect(wrapper.find('button').prop('children')).toBe('SIGN IN TO ORDER');
     });
 
     it('should trigger purchased when the order button is clicked', () => {

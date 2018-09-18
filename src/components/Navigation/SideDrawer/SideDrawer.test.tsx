@@ -13,7 +13,7 @@ describe('<SideDrawer />', () => {
     let wrapper: ShallowWrapper;
 
     beforeEach(() => {
-        wrapper = shallow(<SideDrawer open={true} closed={() => {}} />);
+        wrapper = shallow(<SideDrawer open={true} closed={() => {}} authenticated={false} />);
     });
 
     it('should render the backdrop when open', () => {
@@ -27,5 +27,9 @@ describe('<SideDrawer />', () => {
 
     it('should render a <NavigationItems /> component', () => {
         expect(wrapper.find(NavigationItems)).toHaveLength(1);
+    });
+
+    it('should auth status to the <NavigationItems /> component', () => {
+        expect(wrapper.find(NavigationItems).prop('authenticated')).toBe(false);
     });
 });

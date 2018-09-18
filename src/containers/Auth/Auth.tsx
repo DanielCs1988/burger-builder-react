@@ -1,12 +1,19 @@
 import { connect } from "react-redux";
 import Auth from "../../components/Auth/Auth";
-import {FormValueMap} from "../../components/UI/Form/form.types";
+import {Credentials} from "../../models";
+import {login, register} from "../../store/effects/auth";
+import {AppState} from "../../store/types";
+
+const mapStateToProps = ({ auth: { loading, error, idToken }, ingredients: { building } }: AppState) => ({
+    building, loading, error, isAuthenticated: idToken !== null
+});
 
 const mapDispatchToProps = (dispatch: any) => ({
-    login: (credentials: FormValueMap) => console.log(credentials)
+    onRegister: (credentials: Credentials) => dispatch(register(credentials)),
+    onLogin: (credentials: Credentials) => dispatch(login(credentials))
 });
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(Auth);

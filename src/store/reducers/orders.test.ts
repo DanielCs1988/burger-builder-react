@@ -7,6 +7,7 @@ describe('Ingredients Reducer', () => {
 
     const testOrder: Order = {
         id: 'veryUniqueId',
+        userId: 'C3N4',
         ingredients: { meat: 10, bacon: 5, cheese: 5 },  // Bacon is veggie
         orderData: {
             name: 'John Cena',

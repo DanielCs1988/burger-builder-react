@@ -13,15 +13,23 @@ describe('<Layout />', () => {
     let wrapper: ShallowWrapper;
 
     beforeEach(() => {
-        wrapper = shallow(<Layout children={children} />);
+        wrapper = shallow(<Layout children={children} isAuthenticated={true} />);
     });
 
     it('should render a <Toolbar /> component', () => {
         expect(wrapper.find(Toolbar)).toHaveLength(1);
     });
 
+    it('should auth status to the <Toolbar /> component', () => {
+        expect(wrapper.find(Toolbar).prop('authenticated')).toBe(true);
+    });
+
     it('should render a <SideDrawer /> component', () => {
         expect(wrapper.find(SideDrawer)).toHaveLength(1);
+    });
+
+    it('should auth status to the <SideDrawer /> component', () => {
+        expect(wrapper.find(SideDrawer).prop('authenticated')).toBe(true);
     });
 
     it('should initialize the <SideDrawer /> component as closed', () => {

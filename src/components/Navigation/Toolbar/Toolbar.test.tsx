@@ -13,7 +13,7 @@ describe('<Toolbar />', () => {
     let wrapper: ShallowWrapper;
 
     beforeEach(() => {
-        wrapper = shallow(<Toolbar toggle={() => {}} />);
+        wrapper = shallow(<Toolbar toggle={() => {}} authenticated={true} />);
     });
 
     it('should render a <Logo /> component', () => {
@@ -26,5 +26,9 @@ describe('<Toolbar />', () => {
 
     it('should render a <NavigationItems /> component', () => {
         expect(wrapper.find(NavigationItems)).toHaveLength(1);
+    });
+
+    it('should auth status to the <NavigationItems /> component', () => {
+        expect(wrapper.find(NavigationItems).prop('authenticated')).toBe(true);
     });
 });

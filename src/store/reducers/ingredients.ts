@@ -5,7 +5,8 @@ export const initialState: IngredientState = {
     ingredients: {},
     price: 4,
     error: null,
-    loading: false
+    loading: false,
+    building: false
 };
 
 export const PRICES = {
@@ -20,6 +21,7 @@ const reducer = (state = initialState, action: IngredientActions) => {
         case ActionTypes.ADD_INGREDIENT:
             return {
                 ...state,
+                building: true,
                 price: state.price + PRICES[action.payload],
                 ingredients: {
                     ...state.ingredients,
@@ -30,9 +32,11 @@ const reducer = (state = initialState, action: IngredientActions) => {
             if (state.ingredients[action.payload]! < 1) {
                 return state;
             }
+            const newPrice = state.price - PRICES[action.payload];
             return {
                 ...state,
-                price: state.price - PRICES[action.payload],
+                building: newPrice !== initialState.price,
+                price: newPrice,
                 ingredients: {
                     ...state.ingredients,
                     [action.payload]: state.ingredients[action.payload]! - 1
@@ -41,13 +45,16 @@ const reducer = (state = initialState, action: IngredientActions) => {
         case ActionTypes.FETCH_INGREDIENTS_STARTED:
             return {
                 ...state,
+                building: false,
                 loading: true
             };
         case ActionTypes.FETCH_INGREDIENTS_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                price: initialState.price,
+                price: initialState.price + Object.keys(action.payload)
+                    .map(ingKey => PRICES[ingKey] * action.payload[ingKey])
+                    .reduce((a, b) => a + b, 0),
                 ingredients: action.payload
             };
         case ActionTypes.FETCH_INGREDIENTS_FAILED:
