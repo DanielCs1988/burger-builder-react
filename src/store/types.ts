@@ -1,4 +1,7 @@
 import {Ingredients, Order} from "../models";
+import {IngredientActions} from "./actions/ingredients";
+import {OrderActions} from "./actions/orders";
+import {AuthActions} from "./actions/auth";
 
 export interface IngredientState {
     ingredients: Ingredients;
@@ -27,6 +30,8 @@ export interface AppState {
     orders: OrderState;
     auth: AuthState;
 }
+
+export type AppActions = IngredientActions | OrderActions | AuthActions;
 
 export interface AuthPayload {
     idToken: string;

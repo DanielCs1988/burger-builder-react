@@ -9,7 +9,7 @@ const sideDrawer = ({ open, authenticated, closed }: Props) => {
     return (
         <React.Fragment>
             <Backdrop show={open} closed={closed} />
-            <div className={classes.SideDrawer + ' ' + openOrClosed}>
+            <div className={classes.SideDrawer + ' ' + openOrClosed} onClick={closed}>
                 <div className={classes.Logo}>
                     <Logo />
                 </div>

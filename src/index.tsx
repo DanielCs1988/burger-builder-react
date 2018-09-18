@@ -9,7 +9,8 @@ import App from './containers/App';
 import './index.css';
 import {AppState} from "./store/types";
 
-const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = process.env.NODE_ENV === 'development' ?
+    (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const store: Store<AppState> = createStore(
     rootReducer,

@@ -1,7 +1,7 @@
 import configureStore, {MockStore} from "redux-mock-store";
 import thunk from "redux-thunk";
 import * as nock from "nock";
-import {login, logout, register} from "./auth";
+import {login, logoutWhenTokenExpires, register} from "./auth";
 import {Actions} from "../actions/auth";
 
 const storeCreator = configureStore([thunk]);
@@ -13,6 +13,12 @@ describe('Order Effects', () => {
 
     beforeEach(() => {
         store = storeCreator({});
+        // @ts-ignore
+        global.localStorage = {
+            getItem: () => {},
+            setItem: () => {},
+            removeItem: () => {}
+        }
     });
 
     afterEach(() => nock.cleanAll());
@@ -53,7 +59,7 @@ describe('Order Effects', () => {
     it('should call authLogout after the expiration time is passed', async () => {
         expect.assertions(1);
         // @ts-ignore
-        await store.dispatch(logout(1));
+        await store.dispatch(logoutWhenTokenExpires(1));
         expect(store.getActions()).toEqual([ Actions.authLogout() ]);
     });
 });

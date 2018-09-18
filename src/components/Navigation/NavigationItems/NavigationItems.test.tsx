@@ -34,7 +34,7 @@ describe('<NavigationItems />', () => {
         expect(link).toHaveLength(0);
     });
 
-    it('should have a link pointing to /authenticate when logged in', () => {
+    it('should have a link pointing to /authenticate when logged out', () => {
         wrapper.setProps({ authenticated: false });
         const link = wrapper.findWhere(el => el.prop('link') === '/authenticate');
         expect(link).toHaveLength(1);

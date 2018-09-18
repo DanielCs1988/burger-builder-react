@@ -2,13 +2,18 @@ import * as React from 'react';
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import Layout from "../components/UI/Layout/Layout";
 import BurgerBuilder from "../containers/BurgerBuilder/BurgerBuilder";
-import OrdersSummary from "../containers/OrdersSummary/OrdersSummary";
-import Checkout from "../containers/Checkout/Checkout";
-import Auth from "../containers/Auth/Auth";
 import Logout from "../containers/Auth/Logout/Logout";
-import GuardedRoute from "../hoc/GuardedRoute/GuardedRoute";
+import loadLazily from "../hoc/loadLazily/loadLazily";
+
+const OrdersSummary = loadLazily(() => import('../containers/OrdersSummary/OrdersSummary'));
+const Checkout = loadLazily(() => import('../containers/Checkout/Checkout'));
+const Auth = loadLazily(() => import('../containers/Auth/Auth'));
 
 class App extends React.Component<Props> {
+    componentDidMount() {
+        this.props.loginIfTokenPresent();
+    }
+
     render() {
         const { isAuthenticated } = this.props;
         return (
@@ -18,9 +23,9 @@ class App extends React.Component<Props> {
                         <Switch>
                             <Route path="/burger" component={BurgerBuilder} />
                             <Route path="/authenticate" component={Auth} />
-                            <GuardedRoute canActivate={isAuthenticated} path="/checkout" component={Checkout} />
-                            <GuardedRoute canActivate={isAuthenticated} path="/orders" component={OrdersSummary} />
-                            <GuardedRoute canActivate={isAuthenticated} path="/logout" component={Logout} />
+                            { isAuthenticated ? <Route path="/checkout" component={Checkout} /> : null }
+                            { isAuthenticated ? <Route path="/orders" component={OrdersSummary} /> : null }
+                            { isAuthenticated ? <Route path="/logout" component={Logout} /> : null }
                             <Redirect to="/burger" />
                         </Switch>
                     </Layout>
