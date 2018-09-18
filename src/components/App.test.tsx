@@ -3,11 +3,7 @@ import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow, configure, ShallowWrapper } from "enzyme";
 import App from "./App";
 import BurgerBuilder from "../containers/BurgerBuilder/BurgerBuilder";
-import Checkout from "../containers/Checkout/Checkout";
-import OrdersSummary from "../containers/OrdersSummary/OrdersSummary";
-import Auth from "../containers/Auth/Auth";
 import {Redirect} from "react-router";
-import Logout from "../containers/Auth/Logout/Logout";
 
 configure({ adapter: new Adapter() });
 
@@ -24,39 +20,39 @@ describe('<App />', () => {
         expect(route.prop('component')).toEqual(BurgerBuilder);
     });
 
-    it('should render a /authenticate route pointing to the <Auth /> container', () => {
+    it('should render a /authenticate route', () => {
         const route = wrapper.findWhere(el => el.prop('path') === '/authenticate');
-        expect(route.prop('component')).toEqual(Auth);
+        expect(route).toHaveLength(1);
     });
 
-    it('should render a /checkout route pointing to the <Checkout /> container when authenticated', () => {
-        const route = wrapper.findWhere(el => el.prop('path') === '/checkout');
-        expect(route.prop('component')).toEqual(Checkout);
-    });
-
-    it('should not render a /checkout route pointing to the <Checkout /> container when logged out', () => {
-        wrapper.setProps({ isAuthenticated: false });
-        const route = wrapper.findWhere(el => el.prop('path') === '/checkout');
-        expect(route).toHaveLength(0);
-    });
-
-    it('should render a /orders route pointing to the <OrdersSummary /> container  when authenticated', () => {
+    it('should render a /orders route when logged in', () => {
         const route = wrapper.findWhere(el => el.prop('path') === '/orders');
-        expect(route.prop('component')).toEqual(OrdersSummary);
+        expect(route).toHaveLength(1);
     });
 
-    it('should not render a /orders route pointing to the <OrdersSummary /> container when logged out', () => {
+    it('should not render a /orders route when logged out', () => {
         wrapper.setProps({ isAuthenticated: false });
         const route = wrapper.findWhere(el => el.prop('path') === '/orders');
         expect(route).toHaveLength(0);
     });
 
-    it('should render a /logout route pointing to the <Logout /> container when authenticated', () => {
+    it('should render a /checkout route when logged in', () => {
+        const route = wrapper.findWhere(el => el.prop('path') === '/checkout');
+        expect(route).toHaveLength(1);
+    });
+
+    it('should not render a /checkout route when logged out', () => {
+        wrapper.setProps({ isAuthenticated: false });
+        const route = wrapper.findWhere(el => el.prop('path') === '/checkout');
+        expect(route).toHaveLength(0);
+    });
+
+    it('should render a /logout route when logged in', () => {
         const route = wrapper.findWhere(el => el.prop('path') === '/logout');
-        expect(route.prop('component')).toEqual(Logout);
+        expect(route).toHaveLength(1);
     });
 
-    it('should not render a /logout route pointing to the <Logout /> container when logged out', () => {
+    it('should not render a /logout route when logged out', () => {
         wrapper.setProps({ isAuthenticated: false });
         const route = wrapper.findWhere(el => el.prop('path') === '/logout');
         expect(route).toHaveLength(0);
