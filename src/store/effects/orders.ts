@@ -1,26 +1,26 @@
-import {Order} from "../../models";
-import {Dispatch} from "redux";
-import ordersApi from "../../axios-orders";
 import {Actions} from "../actions/orders";
+import {call, put} from "redux-saga/effects";
+import * as Api from './api';
 
-export const sendOrder = (order: Order, token: string) => async (dispatch: Dispatch) => {
+export function* sendOrder(action: any) {
+    const { order, token } = action.payload;
     try {
-        dispatch(Actions.orderSent());
-        const { data } = await ordersApi.post('orders.json', order, { params: { auth: token } });
-        dispatch(Actions.orderArrived({ ...order, id: data.name }));
+        yield put(Actions.orderSent());
+        const { data } = yield call(Api.sendOrder, order, token);
+        yield put(Actions.orderArrived({ ...order, id: data.name }));
     } catch (error) {
-        dispatch(Actions.orderFailed(error.message));
+        yield put(Actions.orderFailed(error.message));
     }
-};
+}
 
-export const fetchOrders = (token: string, userId: string) => async (dispatch: Dispatch) => {
+export function* fetchOrders(action: any) {
+    const { token, userId } = action.payload;
     try {
-        dispatch(Actions.orderSent());
-        const params = { auth: token, orderBy: '"userId"', equalTo: `"${userId}"` };
-        const { data } = await ordersApi.get('orders.json', { params });
+        yield put(Actions.orderSent());
+        const { data } = yield call(Api.getOrders, token, userId);
         const orders = Object.keys(data).map(key => ({ ...data[key], id: key }));
-        dispatch(Actions.ordersFetched(orders));
+        yield put(Actions.ordersFetched(orders));
     } catch (error) {
-        dispatch(Actions.ordersFetchedError(error.message));
+        yield put(Actions.ordersFetchedError(error.message));
     }
-};
+}

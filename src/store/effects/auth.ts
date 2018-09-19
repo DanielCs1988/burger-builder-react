@@ -1,63 +1,46 @@
-import axios from 'axios';
-import {Credentials} from "../../models";
-import {Actions} from "../actions/auth";
+import {Actions, AuthActions} from "../actions/auth";
+import {call, put} from "redux-saga/effects";
+import {delay} from "redux-saga";
+import * as Api from './api';
 
-const registerEndpoint = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser';
-const loginEndpoint = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword';
-const key = 'AIzaSyBXA34yX9HExl3Hvdl1dN6fvr4fuVbaVS4';
+export function* logout(action: AuthActions) {
+    yield clearStorage();
+    yield put(Actions.authLogout());
+}
 
-export const register = (credentials: Credentials) => async (dispatch: any) => {
-    return authenticate(false, credentials, dispatch);
-};
+export function* logoutWhenTokenExpires(action: any) {
+    yield delay(action.payload * 1000);
+    yield put(Actions.initLogout());
+}
 
-export const login = (credentials: Credentials) => async (dispatch: any) => {
-    return authenticate(true, credentials, dispatch);
-};
-
-const authenticate = async (isLogin: boolean, credentials: Credentials, dispatch: any) => {
+export function* authenticate(action: any) {
+    const { payload: { isLogin, credentials } } = action;
     try {
-        const endpoint = isLogin ? loginEndpoint : registerEndpoint;
-        dispatch(Actions.authStart());
-        const { data: { idToken, localId, expiresIn } } = await axios.post(
-            endpoint,
-            { ...credentials, returnSecureToken: true },
-            { params: { key } }
-        );
+        yield put(Actions.authStart());
+        const { data: { idToken, localId, expiresIn } } = yield call(Api.authenticate, isLogin, credentials);
         const expiresAt = new Date().getTime() + expiresIn * 1000 + '';
-        storeAuthPayload(idToken, localId, expiresAt);
-        dispatch(Actions.authSuccess({ idToken, userId: localId }));
-        dispatch(logoutWhenTokenExpires(+expiresIn));
-    } catch (e) {
-        dispatch(Actions.authFailed(e.message));
+        yield call(storeAuthPayload, idToken, localId, expiresAt);
+        yield put(Actions.authSuccess({ idToken, userId: localId }));
+        yield put(Actions.initLogoutTimer(+expiresIn));
+    } catch (error) {
+        yield put(Actions.authFailed(error.message));
     }
-};
+}
 
-export const logoutWhenTokenExpires = (expiresIn: number) => (dispatch: any) => new Promise((resolve => {
-    setTimeout(() => {
-        dispatch(logout());
-        resolve();
-    }, expiresIn * 1000);
-}));
-
-export const logout = () => (dispatch: any) => {
-    clearStorage();
-    dispatch(Actions.authLogout());
-};
-
-export const tryAuthenticate = () => (dispatch: any) => {
-    if (!localStorage.getItem('expiresAt')) {
+export function* tryAuthenticate(action: AuthActions) {
+    const expiresAt = yield call([localStorage, 'getItem'], 'expiresAt');
+    if (!expiresAt) {
         return;
     }
-    const expiresAt = +localStorage.getItem('expiresAt')!;
     const now = new Date().getTime();
     if (now > expiresAt) {
-        return clearStorage();
+        return yield call(clearStorage);
     }
-    const idToken = localStorage.getItem('token')!;
-    const userId = localStorage.getItem('userId')!;
-    dispatch(Actions.authSuccess({ idToken, userId }));
-    dispatch(logoutWhenTokenExpires((expiresAt - now) / 1000));
-};
+    const idToken = yield call([localStorage, 'getItem'], 'token');
+    const userId = yield call([localStorage, 'getItem'], 'userId');
+    yield put(Actions.authSuccess({ idToken, userId }));
+    yield put(Actions.initLogoutTimer((expiresAt - now) / 1000));
+}
 
 const storeAuthPayload = (token: string, userId: string, expiresAt: string) => {
     localStorage.setItem('token', token);

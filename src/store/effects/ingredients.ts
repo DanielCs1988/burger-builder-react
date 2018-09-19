@@ -1,13 +1,13 @@
-import {Dispatch} from "redux";
-import ordersApi from "../../axios-orders";
-import {Actions} from "../actions/ingredients";
+import {Actions, IngredientActions} from "../actions/ingredients";
+import {call, put} from "redux-saga/effects";
+import * as Api from './api';
 
-export const fetchIngredients = () => async (dispatch: Dispatch) => {
+export function* fetchIngredients(action: IngredientActions) {
     try {
-        dispatch(Actions.fetchIngredientsStarted());
-        const { data } = await ordersApi.get('ingredients.json');
-        dispatch(Actions.fetchIngredientsSuccess(data));
+        yield put(Actions.fetchIngredientsStarted());
+        const { data } = yield call(Api.getIngredients);
+        yield put(Actions.fetchIngredientsSuccess(data));
     } catch (error) {
-        dispatch(Actions.fetchIngredientsFailed(error.message));
+        yield put(Actions.fetchIngredientsFailed(error.message));
     }
-};
+}
