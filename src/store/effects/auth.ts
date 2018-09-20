@@ -1,33 +1,36 @@
 import {Actions, ActionTypes} from "../actions/auth";
-import {call, put, race, take} from "redux-saga/effects";
+import {call, cancel, fork, put, take} from "redux-saga/effects";
 import {delay} from "redux-saga";
 import * as Api from './api';
 import {Credentials} from "../../models";
 
 export function* authFlow() {
     while (true) {
-        const action = yield race({
-            login: take(ActionTypes.INIT_AUTHENTICATE),
-            autoLogin: take(ActionTypes.INIT_TRY_AUTHENTICATE)
-        });
-        let expiresIn;
-        if (action.login) {
-            const { login: { payload: { isLogin, credentials } } } = action;
-            expiresIn = yield call(authenticate, isLogin, credentials);
+        const loginAction = yield take([ActionTypes.INIT_AUTHENTICATE, ActionTypes.INIT_TRY_AUTHENTICATE]);
+        let task;
+        if (loginAction.type === ActionTypes.INIT_AUTHENTICATE) {
+            const { payload: { isLogin, credentials } } = loginAction;
+            task = yield fork(authenticate, isLogin, credentials);
         } else {
-            expiresIn = yield call(autoLogin);
+            task = yield fork(autoLogin);
         }
-        yield race({
-            logout: take(ActionTypes.INIT_LOGOUT),
-            expire: delay(expiresIn)
-        });
-        yield call(logout);
+
+        const logoutAction = yield take([ActionTypes.INIT_LOGOUT, ActionTypes.AUTH_FAILED]);
+        if (logoutAction.type === ActionTypes.INIT_LOGOUT) {
+            yield cancel(task);
+            yield call(logout);
+        }
     }
 }
 
 export function* logout() {
     yield clearStorage();
     yield put(Actions.authLogout());
+}
+
+export function* logoutWhenTokenExpires(ms: number) {
+    yield call(delay, ms);
+    yield put(Actions.initLogout());
 }
 
 export function* authenticate(isLogin: boolean, credentials: Credentials) {
@@ -37,27 +40,23 @@ export function* authenticate(isLogin: boolean, credentials: Credentials) {
         const expiresAt = new Date().getTime() + expiresIn * 1000 + '';
         yield call(storeAuthPayload, idToken, localId, expiresAt);
         yield put(Actions.authSuccess({ idToken, userId: localId }));
-        return expiresIn * 1000;
+        yield call(logoutWhenTokenExpires, expiresIn * 1000);
     } catch (error) {
         yield put(Actions.authFailed(error.message));
-        return 0;
     }
 }
 
 export function* autoLogin() {
     const expiresAt = yield call([localStorage, 'getItem'], 'expiresAt');
-    if (!expiresAt) {
-        return 0;
-    }
     const now = new Date().getTime();
-    if (now > expiresAt) {
-        yield call(clearStorage);
-        return 0;
+    if (!expiresAt || now > expiresAt) {
+        return yield put(Actions.initLogout());
     }
+
     const idToken = yield call([localStorage, 'getItem'], 'token');
     const userId = yield call([localStorage, 'getItem'], 'userId');
     yield put(Actions.authSuccess({ idToken, userId }));
-    return expiresAt - now;
+    yield call(logoutWhenTokenExpires, expiresAt - now);
 }
 
 const storeAuthPayload = (token: string, userId: string, expiresAt: string) => {
