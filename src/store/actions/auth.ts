@@ -8,7 +8,6 @@ export const enum ActionTypes {
     AUTH_FAILED = 'AUTH_FAILED',
     AUTH_LOGOUT = 'AUTH_LOGOUT',
     INIT_LOGOUT = 'INIT_LOGOUT',
-    INIT_LOGOUT_TIMER = 'INIT_LOGOUT_TIMER',
     INIT_AUTHENTICATE = 'INIT_AUTHENTICATE',
     INIT_TRY_AUTHENTICATE = 'INIT_TRY_AUTHENTICATE'
 }
@@ -19,7 +18,6 @@ export const Actions = {
     authFailed: (error: string) => createAction(ActionTypes.AUTH_FAILED, error),
     authLogout: () => createAction(ActionTypes.AUTH_LOGOUT),
     initLogout: () => createAction(ActionTypes.INIT_LOGOUT),
-    initLogoutTimer: (expiresIn: number) => createAction(ActionTypes.INIT_LOGOUT_TIMER, expiresIn),
     initAuthenticate: (payload: { isLogin: boolean, credentials: Credentials }) => {
         return createAction(ActionTypes.INIT_AUTHENTICATE, payload);
     },

@@ -8,7 +8,7 @@ import rootReducer from './store/rootReducer';
 import App from './containers/App';
 import './index.css';
 import { AppState } from "./store/types";
-import { sagas } from "./store/effects";
+import { rootSaga } from "./store/rootSaga";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -20,7 +20,7 @@ const store: Store<AppState> = createStore(
     composeEnhancers(applyMiddleware(sagaMiddleware))
 );
 
-sagaMiddleware.run(sagas);
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
     <Provider store={store}>

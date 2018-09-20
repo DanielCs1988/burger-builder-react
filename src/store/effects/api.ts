@@ -6,25 +6,29 @@ const registerEndpoint = 'https://www.googleapis.com/identitytoolkit/v3/relyingp
 const loginEndpoint = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword';
 const key = 'AIzaSyBXA34yX9HExl3Hvdl1dN6fvr4fuVbaVS4';
 
-export const authenticate = (isLogin: boolean, credentials: Credentials) => {
+export const authenticate = async (isLogin: boolean, credentials: Credentials) => {
     const endpoint = isLogin ? loginEndpoint : registerEndpoint;
-    return axios.post(
+    const { data } = await axios.post(
         endpoint,
         { ...credentials, returnSecureToken: true },
         { params: { key } }
     );
+    return data;
 };
 
-export const getIngredients = () => {
-    return axios.get(`${ordersBaseUrl}/ingredients.json`);
+export const getIngredients = async () => {
+    const { data } = await axios.get(`${ordersBaseUrl}/ingredients.json`);
+    return data;
 };
 
-export const getOrders = (token: string, userId: string) => {
+export const getOrders = async (token: string, userId: string) => {
     const params = { auth: token, orderBy: '"userId"', equalTo: `"${userId}"` };
-    return axios.get(`${ordersBaseUrl}/orders.json`, { params });
+    const { data } = await axios.get(`${ordersBaseUrl}/orders.json`, { params });
+    return data;
 };
 
-export const sendOrder = (order: Order, token: string) => {
+export const sendOrder = async (order: Order, token: string) => {
     const params = { auth: token };
-    return axios.post(`${ordersBaseUrl}/orders.json`, order, { params });
+    const { data } = await axios.post(`${ordersBaseUrl}/orders.json`, order, { params });
+    return data;
 };
